@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Private World</title>
+    <style>
+        :root { --accent: #ff7675; --bg: #0f0f0f; --card: #1e1e1e; --text: #ffffff; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; }
+        
+        /* Entrance Gate */
+        #gate {
+            position: fixed; inset: 0; background: var(--bg);
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; z-index: 1000; text-align: center;
+        }
+
+        /* Dashboard Layout */
+        #main-content { display: none; padding: 20px; max-width: 1000px; margin: 0 auto; }
+        
+        .nav-tabs { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
+        .tab-btn { 
+            background: #222; border: 1px solid var(--accent); color: white;
+            padding: 10px 20px; border-radius: 30px; cursor: pointer;
+        }
+        .tab-btn.active { background: var(--accent); }
+
+        /* Gallery Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .moment-card { background: var(--card); border-radius: 15px; overflow: hidden; position: relative; }
+        .moment-card img, .moment-card video { width: 100%; height: 250px; object-fit: cover; }
+        .caption { padding: 15px; font-style: italic; font-size: 0.9rem; }
+
+        /* Music Bar */
+        #music-bar {
+            position: fixed; bottom: 20px; left: 20px; background: rgba(0,0,0,0.8);
+            padding: 10px 20px; border-radius: 50px; display: flex; align-items: center; gap: 10px;
+            border: 1px solid var(--accent); z-index: 999;
+        }
+
+        .hidden { display: none !important; }
+        input { padding: 12px; border-radius: 8px; border: 1px solid #333; background: #222; color: white; margin-bottom: 10px; }
+        .btn { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-audio" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
+    <div id="gate">
+        <h1 style="font-size: 3rem;">❤️</h1>
+        <h2>Enter Our World</h2>
+        <input type="password" id="pass-input" placeholder="Our Secret Password">
+        <button class="btn" onclick="unlock()">Unlock</button>
+    </div>
+
+    <div id="main-content">
+        <header style="text-align: center; padding: 40px 0;">
+            <h1 id="headline">Moments of Us</h1>
+            <p>A private collection of our favorite memories.</p>
+        </header>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('gallery')">Moments</button>
+            <button class="tab-btn" onclick="switchTab('playlist')">Our Playlist</button>
+            <button class="tab-btn" onclick="switchTab('upload')">Add New</button>
+        </div>
+
+        <div id="gallery-sec" class="tab-content">
+            <div class="grid" id="moments-grid">
+                </div>
+        </div>
+
+        <div id="playlist-sec" class="tab-content hidden">
+            <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXclAEPm6686n" width="100%" height="380" allow="encrypted-media"></iframe>
+            <div style="margin-top:20px;">
+                <iframe width="100%" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ"></iframe>
+            </div>
+        </div>
+
+        <div id="upload-sec" class="tab-content hidden" style="text-align: center; background: var(--card); padding: 40px; border-radius: 20px;">
+            <h3>Upload a New Moment</h3>
+            <input type="file" id="file-input" accept="image/*,video/*"><br>
+            <input type="text" id="cap-input" placeholder="What's the memory?"><br>
+            <button class="btn" onclick="addMemory()">Save Memory</button>
+        </div>
+    </div>
+
+    <div id="music-bar" class="hidden">
+        <span id="playing-icon">🎵</span>
+        <small>Our Song is Playing</small>
+        <button onclick="document.getElementById('bg-audio').paused ? document.getElementById('bg-audio').play() : document.getElementById('bg-audio').pause()" style="background:none; border:none; color:white; cursor:pointer;">⏯</button>
+    </div>
+
+    <script>
+        // Password Logic
+        function unlock() {
+            const pass = document.getElementById('pass-input').value;
+            if(pass === 'ourlove') { // <-- SET YOUR PASSWORD HERE
+                document.getElementById('gate').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                document.getElementById('music-bar').classList.remove('hidden');
+                document.getElementById('bg-audio').play();
+                loadMemories();
+            } else { alert("Incorrect password"); }
+        }
+
+        // Tab Switching
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab + '-sec').classList.remove('hidden');
+            event.currentTarget.classList.add('active');
+        }
+
+        // Local Storage Memory Logic
+        function addMemory() {
+            const file = document.getElementById('file-input').files[0];
+            const caption = document.getElementById('cap-input').value;
+            if(!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const memory = { id: Date.now(), data: e.target.result, type: file.type, caption: caption };
+                const saved = JSON.parse(localStorage.getItem('us')) || [];
+                saved.push(memory);
+                localStorage.setItem('us', JSON.stringify(saved));
+                location.reload(); 
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function loadMemories() {
+            const saved = JSON.parse(localStorage.getItem('us')) || [];
+            const grid = document.getElementById('moments-grid');
+            saved.reverse().forEach(m => {
+                const card = document.createElement('div');
+                card.className = 'moment-card';
+                let media = m.type.includes('video') ? `<video src="${m.data}" controls></video>` : `<img src="${m.data}">`;
+                card.innerHTML = `${media}<div class="caption">${m.caption}</div>`;
+                grid.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>
