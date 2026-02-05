@@ -3,149 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Private World</title>
+    <title>Our Private World ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@300;500&family=Indie+Flower&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
     <style>
-        :root { --accent: #ff7675; --bg: #0f0f0f; --card: #1e1e1e; --text: #ffffff; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; }
-        
-        /* Entrance Gate */
-        #gate {
-            position: fixed; inset: 0; background: var(--bg);
-            display: flex; flex-direction: column; justify-content: center;
-            align-items: center; z-index: 1000; text-align: center;
+        :root { --pink: #ff4d6d; --dark: #590d22; --cream: #fff0f3; --parchment: #fdfaf0; }
+        body { font-family: 'Quicksand', sans-serif; background: var(--cream); margin: 0; color: var(--dark); overflow-x: hidden; }
+
+        /* Falling Elements */
+        .particle {
+            position: fixed;
+            top: -10%;
+            z-index: 999;
+            user-select: none;
+            pointer-events: none;
+            animation: fall linear forwards;
         }
 
-        /* Dashboard Layout */
-        #main-content { display: none; padding: 20px; max-width: 1000px; margin: 0 auto; }
-        
-        .nav-tabs { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
-        .tab-btn { 
-            background: #222; border: 1px solid var(--accent); color: white;
-            padding: 10px 20px; border-radius: 30px; cursor: pointer;
-        }
-        .tab-btn.active { background: var(--accent); }
-
-        /* Gallery Grid */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .moment-card { background: var(--card); border-radius: 15px; overflow: hidden; position: relative; }
-        .moment-card img, .moment-card video { width: 100%; height: 250px; object-fit: cover; }
-        .caption { padding: 15px; font-style: italic; font-size: 0.9rem; }
-
-        /* Music Bar */
-        #music-bar {
-            position: fixed; bottom: 20px; left: 20px; background: rgba(0,0,0,0.8);
-            padding: 10px 20px; border-radius: 50px; display: flex; align-items: center; gap: 10px;
-            border: 1px solid var(--accent); z-index: 999;
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
         }
 
-        .hidden { display: none !important; }
-        input { padding: 12px; border-radius: 8px; border: 1px solid #333; background: #222; color: white; margin-bottom: 10px; }
-        .btn { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; }
+        /* Game Overlay */
+        #game-overlay {
+            position: fixed; inset: 0; background: white; z-index: 2000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+        }
+        .btn-container { margin-top: 20px; position: relative; width: 300px; height: 100px; }
+        button { padding: 12px 25px; border: none; border-radius: 50px; cursor: pointer; font-family: 'Quicksand'; font-weight: bold; transition: transform 0.2s; }
+        button:hover { transform: scale(1.05); }
+        #yes-btn { background: var(--pink); color: white; position: absolute; left: 10%; }
+        #no-btn { background: #ccc; color: #555; position: absolute; right: 10%; transition: 0.1s; }
+
+        /* Content Layout */
+        #main-content { display: none; opacity: 0; transition: opacity 1.5s; padding: 20px; }
+        .section { max-width: 900px; margin: 30px auto; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        h1, h2 { font-family: 'Dancing Script', cursive; color: var(--pink); text-align: center; }
+
+        /* Scrapbook Photo & Video Grid */
+        #photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+        .photo-card { background: white; padding: 10px; border-radius: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transform: rotate(-1deg); transition: 0.3s; }
+        .photo-card:nth-child(even) { transform: rotate(1.5deg); }
+        .photo-card img, .photo-card video { width: 100%; border-radius: 5px; display: block; }
+        .memory-text { font-family: 'Indie Flower', cursive; padding: 10px; font-size: 1.1rem; text-align: center; border: none; width: 90%; outline: none; }
+
+        /* Letters & Notes */
+        .letter { background: var(--parchment); padding: 30px; border-radius: 5px; font-family: 'Indie Flower', cursive; font-size: 1.2rem; border-left: 5px solid var(--pink); outline: none; }
+        .sticky-note { width: 140px; height: 140px; background: #fff3a3; padding: 10px; box-shadow: 5px 5px 7px rgba(0,0,0,0.1); font-family: 'Indie Flower'; transform: rotate(-2deg); outline: none; overflow: hidden; }
+
+        /* Admin/Control Panel */
+        #admin-panel { background: #ffe3e8; border-top: 3px dashed var(--pink); margin-top: 100px; padding: 40px 20px; text-align: center; }
+        .admin-input { padding: 12px; border: 1px solid #ccc; border-radius: 5px; width: 60%; margin: 5px; font-family: 'Quicksand'; }
     </style>
 </head>
 <body>
 
-    <audio id="bg-audio" loop src="oursong.mp3"></audio>
-
-    <div id="gate">
-        <h1 style="font-size: 3rem;">❤️</h1>
-        <h2>Enter Our World</h2>
-        <input type="password" id="pass-input" placeholder="Our Secret Password">
-        <button class="btn" onclick="unlock()">Unlock</button>
+    <div id="game-overlay">
+        <h1 id="question">Do you love me? ❤️</h1>
+        <div class="btn-container">
+            <button id="yes-btn" onclick="handleResponse()">Yes</button>
+            <button id="no-btn" onmouseover="moveNo()" ontouchstart="moveNo()">No</button>
+        </div>
     </div>
 
     <div id="main-content">
-        <header style="text-align: center; padding: 40px 0;">
-            <h1 id="headline">Moments of Us</h1>
-            <p>A private collection of our favorite memories.</p>
+        <header style="text-align: center; padding: 40px;">
+            <h1 style="font-size: 3.5rem;">Our Beautiful World</h1>
+            <p id="current-song-display">🎵 Playing: Sarangi by Sushant KC</p>
         </header>
 
-        <div class="nav-tabs">
-            <button class="tab-btn active" onclick="switchTab('gallery')">Moments</button>
-            <button class="tab-btn" onclick="switchTab('playlist')">Our Playlist</button>
-            <button class="tab-btn" onclick="switchTab('upload')">Add New</button>
-        </div>
-
-        <div id="gallery-sec" class="tab-content">
-            <div class="grid" id="moments-grid">
+        <div class="section">
+            <h2>Our Scrapbook</h2>
+            <div id="photo-grid">
+                <div class="photo-card">
+                    <img src="https://via.placeholder.com/400x300?text=Your+First+Date" alt="Memory">
+                    <div class="memory-text" contenteditable="true">The day everything started... Click to edit this memory!</div>
                 </div>
-        </div>
-
-        <div id="playlist-sec" class="tab-content hidden">
-            <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXclAEPm6686n" width="100%" height="380" allow="encrypted-media"></iframe>
-            <div style="margin-top:20px;">
-                <iframe width="100%" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ"></iframe>
             </div>
         </div>
 
-        <div id="upload-sec" class="tab-content hidden" style="text-align: center; background: var(--card); padding: 40px; border-radius: 20px;">
-            <h3>Upload a New Moment</h3>
-            <input type="file" id="file-input" accept="image/*,video/*"><br>
-            <input type="text" id="cap-input" placeholder="What's the memory?"><br>
-            <button class="btn" onclick="addMemory()">Save Memory</button>
+        <div class="section">
+            <h2>Letters From The Heart</h2>
+            <div class="letter" contenteditable="true">
+                My Dearest, <br><br>
+                Today I was thinking about...
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Memory Notes 📌</h2>
+            <div id="sticky-container" style="display:flex; gap:15px; flex-wrap:wrap; justify-content:center;">
+                <div class="sticky-note" contenteditable="true">I love you more!</div>
+            </div>
+            <center><button onclick="addNote()" style="margin-top:15px; background:var(--pink); color:white;">+ Add Note</button></center>
+        </div>
+
+        <div id="admin-panel">
+            <h2>Customizer Panel</h2>
+            <p>Paste a link to a photo or video (MP4) to add it to your scrapbook!</p>
+            
+            <input type="text" id="img-input" class="admin-input" placeholder="Paste Image or Video URL here...">
+            <button onclick="addItem()" style="background:var(--dark); color:white;">Add to Scrapbook</button>
+            
+            <br>
+            
+            <input type="text" id="music-input" class="admin-input" placeholder="Paste MP3 Link to change song...">
+            <button onclick="changeMusic()" style="background:var(--pink); color:white;">Update Music</button>
         </div>
     </div>
 
-    <div id="music-bar" class="hidden">
-        <span id="playing-icon">🎵</span>
-        <small>Our Song is Playing</small>
-        <button onclick="document.getElementById('bg-audio').paused ? document.getElementById('bg-audio').play() : document.getElementById('bg-audio').pause()" style="background:none; border:none; color:white; cursor:pointer;">⏯</button>
-    </div>
+    <audio id="bg-audio" loop>
+        <source id="audio-source" src="sarangi.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
-        // Password Logic
+        let step = 1;
+        const noBtn = document.getElementById('no-btn');
+        const audio = document.getElementById('bg-audio');
+
+        function moveNo() {
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            noBtn.style.position = "fixed";
+            noBtn.style.left = x + "px";
+            noBtn.style.top = y + "px";
+        }
+
+        function handleResponse() {
+            if (step === 1) {
+                document.getElementById('question').innerText = "Willing to be my forever? 💍";
+                noBtn.style.position = "absolute"; noBtn.style.right = "10%"; noBtn.style.top = "0";
+                step = 2;
+            } else {
+                unlock();
+            }
+        }
+
         function unlock() {
-            const pass = document.getElementById('pass-input').value;
-            if(pass === '0805') { // <-- SET YOUR PASSWORD HERE
-                document.getElementById('gate').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                document.getElementById('music-bar').classList.remove('hidden');
-                document.getElementById('bg-audio').play();
-                loadMemories();
-            } else { alert("Incorrect password"); }
+            confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 } });
+            audio.play().catch(e => console.log("Interaction needed for audio"));
+
+            document.getElementById('game-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('game-overlay').style.display = 'none';
+                const main = document.getElementById('main-content');
+                main.style.display = 'block';
+                setTimeout(() => main.style.opacity = '1', 100);
+                startFallingElements(); // Trigger hearts and flowers
+            }, 1000);
         }
 
-        // Tab Switching
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            document.getElementById(tab + '-sec').classList.remove('hidden');
-            event.currentTarget.classList.add('active');
+        // Falling Hearts and Flowers logic
+        function startFallingElements() {
+            const symbols = ['❤️', '🌸', '✨', '💖', '🌼'];
+            setInterval(() => {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + "vw";
+                particle.style.fontSize = (Math.random() * 20 + 10) + "px";
+                particle.style.animationDuration = (Math.random() * 3 + 2) + "s";
+                particle.style.opacity = Math.random();
+                document.body.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), 5000);
+            }, 300);
         }
 
-        // Local Storage Memory Logic
-        function addMemory() {
-            const file = document.getElementById('file-input').files[0];
-            const caption = document.getElementById('cap-input').value;
-            if(!file) return;
+        function addItem() {
+            const url = document.getElementById('img-input').value;
+            if (!url) return;
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const memory = { id: Date.now(), data: e.target.result, type: file.type, caption: caption };
-                const saved = JSON.parse(localStorage.getItem('us')) || [];
-                saved.push(memory);
-                localStorage.setItem('us', JSON.stringify(saved));
-                location.reload(); 
-            };
-            reader.readAsDataURL(file);
+            const grid = document.getElementById('photo-grid');
+            const card = document.createElement('div');
+            card.className = 'photo-card';
+            
+            // Check if URL is a video
+            const isVideo = url.match(/\.(mp4|webm|ogg)$/i);
+            
+            if (isVideo) {
+                card.innerHTML = `
+                    <video controls>
+                        <source src="${url}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="memory-text" contenteditable="true">Write a memory about this video...</div>
+                `;
+            } else {
+                card.innerHTML = `
+                    <img src="${url}" onerror="this.src='https://via.placeholder.com/400?text=Invalid+Link'">
+                    <div class="memory-text" contenteditable="true">Write a memory about this photo...</div>
+                `;
+            }
+            
+            grid.appendChild(card);
+            document.getElementById('img-input').value = "";
         }
 
-        function loadMemories() {
-            const saved = JSON.parse(localStorage.getItem('us')) || [];
-            const grid = document.getElementById('moments-grid');
-            saved.reverse().forEach(m => {
-                const card = document.createElement('div');
-                card.className = 'moment-card';
-                let media = m.type.includes('video') ? `<video src="${m.data}" controls></video>` : `<img src="${m.data}">`;
-                card.innerHTML = `${media}<div class="caption">${m.caption}</div>`;
-                grid.appendChild(card);
-            });
+        function changeMusic() {
+            const url = document.getElementById('music-input').value;
+            if (url) {
+                const source = document.getElementById('audio-source');
+                source.src = url;
+                audio.load();
+                audio.play();
+                document.getElementById('current-song-display').innerText = "🎵 Playing: Custom Track";
+            }
+        }
+
+        function addNote() {
+            const container = document.getElementById('sticky-container');
+            const note = document.createElement('div');
+            note.className = 'sticky-note';
+            note.contentEditable = "true";
+            note.innerText = "New Memory...";
+            container.appendChild(note);
         }
     </script>
 </body>
-
 </html>
-
-
-
-
