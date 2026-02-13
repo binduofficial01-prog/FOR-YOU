@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Surprise ❤️</title>
+    <title>For You ❤️</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
 
@@ -70,6 +70,7 @@
             align-items: center;
             gap: 15px;
             margin-top: 15px;
+            min-height: 100px;
         }
 
         button {
@@ -88,7 +89,14 @@
 
         button:hover { background: #fff0f5; transform: translateY(-2px); }
 
-        #no-btn { position: absolute; width: 80px; z-index: 999; border-color: #ccc; color: #888; }
+        #no-btn { 
+            position: absolute; 
+            width: 100px; 
+            z-index: 999; 
+            border-color: #ccc; 
+            color: #888; 
+            padding: 8px 15px;
+        }
 
         /* The Heartful Note */
         .letter {
@@ -128,20 +136,20 @@
                     <circle cx="43" cy="62" r="2" fill="black"/>
                     <circle cx="57" cy="62" r="2" fill="black"/>
                     <path d="M47,72 Q50,75 53,72" fill="none" stroke="black" stroke-width="1"/>
-                    <text x="15" y="30" font-size="14" fill="#ffb3c1" font-family="Arial">?</text>
+                    <text x="15" y="35" font-size="14" fill="#ffb3c1">?</text>
                 </svg>
             </div>
             <h2 class="cursive-question">What was the first thing you ever said to me? ❤️</h2>
             <div class="btn-group">
-                <button onclick="alert('Think again! 😉')">1. hello, how are you?</button>
+                <button onclick="alert('Think again, handsome! 😉')">1. hello, how are you?</button>
                 <button onclick="nextStep(2)">2. tmi bindu ho?</button>
             </div>
         </div>
 
         <div id="step2" class="step">
-            <h2 class="cursive-question" style="margin-top: 30px;">Do you love me? ❤️</h2>
-            <div class="btn-group" style="height: 120px; position: relative; width: 100%;">
-                <button onclick="nextStep(3)" style="position: absolute; left: 50%; transform: translateX(-50%); top: 0;">Yes</button>
+            <h2 class="cursive-question">Do you love me? ❤️</h2>
+            <div class="btn-group" style="position: relative;">
+                <button onclick="nextStep(3)">Yes</button>
                 <button id="no-btn" onmouseover="evade()">No</button>
             </div>
         </div>
