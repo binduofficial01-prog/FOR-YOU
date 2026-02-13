@@ -3,21 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Private World ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@300;500&family=Indie+Flower&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
+    <title>For You ❤️</title>
     <style>
-        :root { --pink: #ff4d6d; --dark: #590d22; --cream: #fff0f3; --parchment: #fdfaf0; }
-        body { font-family: 'Quicksand', sans-serif; background: var(--cream); margin: 0; color: var(--dark); overflow-x: hidden; }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-        /* Falling Elements */
-        .particle {
+        /* Falling Decorations */
+        .symbol {
             position: fixed;
             top: -10%;
-            z-index: 999;
             user-select: none;
             pointer-events: none;
+            z-index: 1;
             animation: fall linear forwards;
         }
 
@@ -25,200 +31,175 @@
             to { transform: translateY(110vh) rotate(360deg); }
         }
 
-        /* Game Overlay */
-        #game-overlay {
-            position: fixed; inset: 0; background: white; z-index: 2000;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+        /* Container */
+        #main-container {
+            position: relative;
+            z-index: 10;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            max-width: 500px;
+            width: 85%;
+            text-align: center;
         }
-        .btn-container { margin-top: 20px; position: relative; width: 300px; height: 100px; }
-        button { padding: 12px 25px; border: none; border-radius: 50px; cursor: pointer; font-family: 'Quicksand'; font-weight: bold; transition: transform 0.2s; }
-        button:hover { transform: scale(1.05); }
-        #yes-btn { background: var(--pink); color: white; position: absolute; left: 10%; }
-        #no-btn { background: #ccc; color: #555; position: absolute; right: 10%; transition: 0.1s; }
 
-        /* Content Layout */
-        #main-content { display: none; opacity: 0; transition: opacity 1.5s; padding: 20px; }
-        .section { max-width: 900px; margin: 30px auto; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        h1, h2 { font-family: 'Dancing Script', cursive; color: var(--pink); text-align: center; }
+        .step { display: none; }
+        .step.active { display: block; animation: fadeIn 0.6s ease-in; }
 
-        /* Scrapbook Photo & Video Grid */
-        #photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
-        .photo-card { background: white; padding: 10px; border-radius: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transform: rotate(-1deg); transition: 0.3s; }
-        .photo-card:nth-child(even) { transform: rotate(1.5deg); }
-        .photo-card img, .photo-card video { width: 100%; border-radius: 5px; display: block; }
-        .memory-text { font-family: 'Indie Flower', cursive; padding: 10px; font-size: 1.1rem; text-align: center; border: none; width: 90%; outline: none; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Letters & Notes */
-        .letter { background: var(--parchment); padding: 30px; border-radius: 5px; font-family: 'Indie Flower', cursive; font-size: 1.2rem; border-left: 5px solid var(--pink); outline: none; }
-        .sticky-note { width: 140px; height: 140px; background: #fff3a3; padding: 10px; box-shadow: 5px 5px 7px rgba(0,0,0,0.1); font-family: 'Indie Flower'; transform: rotate(-2deg); outline: none; overflow: hidden; }
+        h2 { color: #333; font-size: 1.4rem; margin-bottom: 25px; line-height: 1.4; }
 
-        /* Admin/Control Panel */
-        #admin-panel { background: #ffe3e8; border-top: 3px dashed var(--pink); margin-top: 100px; padding: 40px 20px; text-align: center; }
-        .admin-input { padding: 12px; border: 1px solid #ccc; border-radius: 5px; width: 60%; margin: 5px; font-family: 'Quicksand'; }
+        /* Doodle Bunny SVG */
+        .bunny-box { width: 130px; margin: 0 auto 15px; }
+        
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 14px 25px;
+            font-size: 1rem;
+            border: 2px solid #333;
+            background: white;
+            color: #333;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            max-width: 250px;
+            font-weight: 600;
+        }
+
+        button:hover { background: #f0f0f0; transform: scale(1.02); }
+
+        #no-btn { position: absolute; width: 80px; z-index: 999; }
+
+        /* The Heartful Note */
+        .letter {
+            text-align: left;
+            line-height: 1.7;
+            color: #444;
+            font-size: 0.95rem;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 15px;
+        }
+
+        .letter h3 { color: #000; text-align: left; margin-bottom: 15px; font-size: 1.6rem; border-bottom: 2px solid #eee; display: inline-block; }
+        
+        .letter::-webkit-scrollbar { width: 4px; }
+        .letter::-webkit-scrollbar-thumb { background: #ddd; border-radius: 10px; }
+
+        ul { padding-left: 20px; margin: 15px 0; list-style-type: '→ '; }
+        li { margin-bottom: 10px; color: #555; }
+        .sig { text-align: right; margin-top: 30px; font-style: italic; }
     </style>
 </head>
 <body>
 
-    <div id="game-overlay">
-        <h1 id="question">Do you love me? ❤️</h1>
-        <div class="btn-container">
-            <button id="yes-btn" onclick="handleResponse()">Yes</button>
-            <button id="no-btn" onmouseover="moveNo()" ontouchstart="moveNo()">No</button>
+    <div id="main-container">
+        
+        <div id="step1" class="step active">
+            <div class="bunny-box">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M30,35 Q30,5 42,5 Q50,5 50,35" fill="none" stroke="black" stroke-width="2.5" />
+                    <path d="M50,35 Q50,5 58,5 Q70,5 70,35" fill="none" stroke="black" stroke-width="2.5" />
+                    <path d="M35,60 Q35,40 50,40 Q65,40 65,60 Q65,80 50,80 Q35,80 35,60" fill="none" stroke="black" stroke-width="2.5" />
+                    <circle cx="43" cy="55" r="2" fill="black"/>
+                    <circle cx="57" cy="55" r="2" fill="black"/>
+                    <path d="M47,65 Q50,68 53,65" fill="none" stroke="black" stroke-width="1.5"/>
+                    <path d="M20,20 L25,10 L30,20 L40,25 L30,30 L25,40 L20,30 L10,25 Z" fill="#fff9c4" stroke="#fbc02d" stroke-width="1" />
+                </svg>
+            </div>
+            <h2>Quick question... what was the first thing you ever said to me?</h2>
+            <div class="btn-group">
+                <button onclick="alert('Wrong! Try again, handsome. 😉')">1. hello, how are you?</button>
+                <button onclick="nextStep(2)">2. tmi bindu ho?</button>
+            </div>
         </div>
+
+        <div id="step2" class="step">
+            <h2 style="margin-top: 40px;">Do you love me?</h2>
+            <div class="btn-group" style="height: 120px; position: relative; width: 100%;">
+                <button onclick="nextStep(3)" style="position: absolute; left: 50%; transform: translateX(-50%); top: 0;">Yes</button>
+                <button id="no-btn" onmouseover="evade()">No</button>
+            </div>
+        </div>
+
+        <div id="step3" class="step">
+            <h2>Willing to be my forever?</h2>
+            <div class="btn-group">
+                <button onclick="nextStep(4)">Yes</button>
+                <button onclick="nextStep(4)">Only Yes</button>
+            </div>
+        </div>
+
+        <div id="step4" class="step">
+            <div class="letter">
+                <h3>MAYA,</h3>
+                <p>I was sitting here thinking about us today, and my heart just felt full. I started scrolling through our memories—the big milestones, sure, but mostly the small, quiet moments that stay with me.</p>
+                
+                <p>The way we can talk for hours (even if at the roads near perfect or walking along while shopping) even for a short period of time about absolutely everything and nothing at all, and how those conversations always seem to end with us dreaming about our future.</p>
+                
+                <p>I love that we have a vision for "us." Whether it’s the trips we haven't taken yet, the goals we’re chasing, or just the simple daily rituals we haven't started—I find myself imagining the day we finally check them all off. Every time we talk about what’s next, it feels less like a dream and more like a promise.</p>
+
+                <p>I don't think I tell you often enough how much your care means to me. It’s in:</p>
+                <ul>
+                    <li>The way you check in on me without being asked.</li>
+                    <li>The effortless love you show, even on my hardest days.</li>
+                    <li>The safety I feel just knowing you’re in my corner.</li>
+                </ul>
+
+                <p>You aren't just a part of my life; you are the person I want to build a life with. So, here is my word: I am promising to be here forever. I promise to keep choosing you, to keep dreaming with you, and to love you more deeply with every year that passes.</p>
+
+                <p>I can’t wait to see us finish that to-do list together.</p>
+                
+                <p class="sig"><strong>Loving you always,</strong></p>
+            </div>
+        </div>
+
     </div>
-
-    <div id="main-content">
-        <header style="text-align: center; padding: 40px;">
-            <h1 style="font-size: 3.5rem;">Our Beautiful World</h1>
-            <p id="current-song-display">🎵 Playing: Sarangi by Sushant KC</p>
-        </header>
-
-        <div class="section">
-            <h2>Our Scrapbook</h2>
-            <div id="photo-grid">
-                <div class="photo-card">
-                    <img src="https://via.placeholder.com/400x300?text=Your+First+Date" alt="Memory">
-                    <div class="memory-text" contenteditable="true">The day everything started... Click to edit this memory!</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Letters From The Heart</h2>
-            <div class="letter" contenteditable="true">
-                My Dearest, <br><br>
-                Today I was thinking about...
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Memory Notes 📌</h2>
-            <div id="sticky-container" style="display:flex; gap:15px; flex-wrap:wrap; justify-content:center;">
-                <div class="sticky-note" contenteditable="true">I love you more!</div>
-            </div>
-            <center><button onclick="addNote()" style="margin-top:15px; background:var(--pink); color:white;">+ Add Note</button></center>
-        </div>
-
-        <div id="admin-panel">
-            <h2>Customizer Panel</h2>
-            <p>Paste a link to a photo or video (MP4) to add it to your scrapbook!</p>
-            
-            <input type="text" id="img-input" class="admin-input" placeholder="Paste Image or Video URL here...">
-            <button onclick="addItem()" style="background:var(--dark); color:white;">Add to Scrapbook</button>
-            
-            <br>
-            
-            <input type="text" id="music-input" class="admin-input" placeholder="Paste MP3 Link to change song...">
-            <button onclick="changeMusic()" style="background:var(--pink); color:white;">Update Music</button>
-        </div>
-    </div>
-
-    <audio id="bg-audio" loop>
-        <source id="audio-source" src="sarangi.mp3" type="audio/mpeg">
-    </audio>
 
     <script>
-        let step = 1;
-        const noBtn = document.getElementById('no-btn');
-        const audio = document.getElementById('bg-audio');
+        // Falling Stars and Love Symbols
+        function spawnSymbol() {
+            const symbols = ['⭐', '✨', '🤍', '🖤', '💫'];
+            const el = document.createElement('div');
+            el.className = 'symbol';
+            el.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.fontSize = (Math.random() * 10 + 12) + 'px';
+            el.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            el.style.opacity = Math.random();
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 5000);
+        }
+        setInterval(spawnSymbol, 400);
 
-        function moveNo() {
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 50);
-            noBtn.style.position = "fixed";
-            noBtn.style.left = x + "px";
-            noBtn.style.top = y + "px";
+        // Step Management
+        function nextStep(n) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step' + n).classList.add('active');
         }
 
-        function handleResponse() {
-            if (step === 1) {
-                document.getElementById('question').innerText = "Willing to be my forever? 💍";
-                noBtn.style.position = "absolute"; noBtn.style.right = "10%"; noBtn.style.top = "0";
-                step = 2;
-            } else {
-                unlock();
-            }
-        }
-
-        function unlock() {
-            confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 } });
-            audio.play().catch(e => console.log("Interaction needed for audio"));
-
-            document.getElementById('game-overlay').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('game-overlay').style.display = 'none';
-                const main = document.getElementById('main-content');
-                main.style.display = 'block';
-                setTimeout(() => main.style.opacity = '1', 100);
-                startFallingElements(); // Trigger hearts and flowers
-            }, 1000);
-        }
-
-        // Falling Hearts and Flowers logic
-        function startFallingElements() {
-            const symbols = ['❤️', '🌸', '✨', '💖', '🌼'];
-            setInterval(() => {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-                particle.style.left = Math.random() * 100 + "vw";
-                particle.style.fontSize = (Math.random() * 20 + 10) + "px";
-                particle.style.animationDuration = (Math.random() * 3 + 2) + "s";
-                particle.style.opacity = Math.random();
-                document.body.appendChild(particle);
-                
-                setTimeout(() => particle.remove(), 5000);
-            }, 300);
-        }
-
-        function addItem() {
-            const url = document.getElementById('img-input').value;
-            if (!url) return;
-
-            const grid = document.getElementById('photo-grid');
-            const card = document.createElement('div');
-            card.className = 'photo-card';
+        // Moving "No" Button
+        function evade() {
+            const btn = document.getElementById('no-btn');
+            const maxX = window.innerWidth - btn.offsetWidth - 20;
+            const maxY = window.innerHeight - btn.offsetHeight - 20;
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
             
-            // Check if URL is a video
-            const isVideo = url.match(/\.(mp4|webm|ogg)$/i);
-            
-            if (isVideo) {
-                card.innerHTML = `
-                    <video controls>
-                        <source src="${url}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <div class="memory-text" contenteditable="true">Write a memory about this video...</div>
-                `;
-            } else {
-                card.innerHTML = `
-                    <img src="${url}" onerror="this.src='https://via.placeholder.com/400?text=Invalid+Link'">
-                    <div class="memory-text" contenteditable="true">Write a memory about this photo...</div>
-                `;
-            }
-            
-            grid.appendChild(card);
-            document.getElementById('img-input').value = "";
-        }
-
-        function changeMusic() {
-            const url = document.getElementById('music-input').value;
-            if (url) {
-                const source = document.getElementById('audio-source');
-                source.src = url;
-                audio.load();
-                audio.play();
-                document.getElementById('current-song-display').innerText = "🎵 Playing: Custom Track";
-            }
-        }
-
-        function addNote() {
-            const container = document.getElementById('sticky-container');
-            const note = document.createElement('div');
-            note.className = 'sticky-note';
-            note.contentEditable = "true";
-            note.innerText = "New Memory...";
-            container.appendChild(note);
+            btn.style.position = 'fixed';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
         }
     </script>
 </body>
