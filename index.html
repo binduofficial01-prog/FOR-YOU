@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Favorite Person ❤️</title>
+    <title>A Special Surprise ❤️</title>
     <style>
-        /* Import a cursive font */
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
 
         body {
@@ -62,7 +61,6 @@
             line-height: 1.3;
         }
 
-        /* Doodle Bunny SVG */
         .bunny-box { width: 130px; margin: 0 auto 15px; }
         
         /* Buttons */
@@ -76,7 +74,7 @@
 
         button {
             padding: 12px 25px;
-            font-size: 1rem;
+            font-size: 1.1rem;
             border: 1.5px solid #ffb3c1;
             background: white;
             color: #d63384;
@@ -85,6 +83,7 @@
             transition: all 0.3s ease;
             width: 100%;
             max-width: 260px;
+            font-weight: bold;
         }
 
         button:hover { background: #fff0f5; transform: translateY(-2px); }
@@ -129,13 +128,12 @@
                     <circle cx="43" cy="62" r="2" fill="black"/>
                     <circle cx="57" cy="62" r="2" fill="black"/>
                     <path d="M47,72 Q50,75 53,72" fill="none" stroke="black" stroke-width="1"/>
-                    <circle cx="20" cy="25" r="10" fill="none" stroke="#ffb3c1" stroke-width="1" stroke-dasharray="2,2" />
-                    <text x="17" y="29" font-size="12" fill="#ffb3c1">?</text>
+                    <text x="15" y="30" font-size="14" fill="#ffb3c1" font-family="Arial">?</text>
                 </svg>
             </div>
             <h2 class="cursive-question">What was the first thing you ever said to me? ❤️</h2>
             <div class="btn-group">
-                <button onclick="alert('Think again, handsome! 😉')">1. hello, how are you?</button>
+                <button onclick="alert('Think again! 😉')">1. hello, how are you?</button>
                 <button onclick="nextStep(2)">2. tmi bindu ho?</button>
             </div>
         </div>
@@ -151,7 +149,6 @@
         <div id="step3" class="step">
             <h2 class="cursive-question">Willing to be my forever? ❤️</h2>
             <div class="btn-group">
-                <button onclick="nextStep(4)">Yes</button>
                 <button onclick="nextStep(4)">Only Yes</button>
             </div>
         </div>
@@ -159,9 +156,7 @@
         <div id="step4" class="step">
             <div class="letter">
                 <h3>MAYA,</h3>
-                <p>I was sitting here thinking about us today, and my heart just felt full. I started scrolling through our memories—the big milestones, sure, but mostly the small, quiet moments that stay with me.</p>
-                
-                <p>The way we can talk for hours (even if at the roads near perfect or walking along while shopping) even for a short period of time about absolutely everything and nothing at all, and how those conversations always seem to end with us dreaming about our future.</p>
+                <p>I was sitting here thinking about us today, and my heart just felt full. I started scrolling through our memories—the big milestones, sure, but mostly the small, quiet moments that stay with me. The way we can talk for hours (even if at the roads near perfect or walking along while shopping) even for a short period of time about absolutely everything and nothing at all, and how those conversations always seem to end with us dreaming about our future.</p>
                 
                 <p>I love that we have a vision for "us." Whether it’s the trips we haven't taken yet, the goals we’re chasing, or just the simple daily rituals we haven't started—I find myself imagining the day we finally check them all off. Every time we talk about what’s next, it feels less like a dream and more like a promise.</p>
 
@@ -183,7 +178,6 @@
     </div>
 
     <script>
-        // Falling Stars and Love Symbols
         function spawnSymbol() {
             const symbols = ['⭐', '💖', '✨', '💕', '🤍'];
             const el = document.createElement('div');
@@ -198,13 +192,11 @@
         }
         setInterval(spawnSymbol, 350);
 
-        // Step Navigation
         function nextStep(n) {
             document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
             document.getElementById('step' + n).classList.add('active');
         }
 
-        // "No" button move logic
         function evade() {
             const btn = document.getElementById('no-btn');
             const x = Math.random() * (window.innerWidth - btn.offsetWidth - 20);
