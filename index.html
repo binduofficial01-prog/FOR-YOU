@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You ❤️</title>
+    <title>For My Favorite Person ❤️</title>
     <style>
+        /* Import a cursive font */
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
         body {
             margin: 0;
             padding: 0;
             background-color: #ffffff;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
             overflow-x: hidden;
             display: flex;
             justify-content: center;
@@ -36,9 +39,9 @@
             position: relative;
             z-index: 10;
             background: #ffffff;
-            padding: 30px;
-            border-radius: 25px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            padding: 35px;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
             max-width: 500px;
             width: 85%;
             text-align: center;
@@ -47,9 +50,17 @@
         .step { display: none; }
         .step.active { display: block; animation: fadeIn 0.6s ease-in; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        h2 { color: #333; font-size: 1.4rem; margin-bottom: 25px; line-height: 1.4; }
+        /* Cursive Questions Styling */
+        .cursive-question {
+            font-family: 'Dancing Script', cursive;
+            font-style: italic;
+            color: #d63384;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            line-height: 1.3;
+        }
 
         /* Doodle Bunny SVG */
         .bunny-box { width: 130px; margin: 0 auto 15px; }
@@ -59,47 +70,50 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
             margin-top: 15px;
         }
 
         button {
-            padding: 14px 25px;
+            padding: 12px 25px;
             font-size: 1rem;
-            border: 2px solid #333;
+            border: 1.5px solid #ffb3c1;
             background: white;
-            color: #333;
-            border-radius: 12px;
+            color: #d63384;
+            border-radius: 50px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             width: 100%;
-            max-width: 250px;
-            font-weight: 600;
+            max-width: 260px;
         }
 
-        button:hover { background: #f0f0f0; transform: scale(1.02); }
+        button:hover { background: #fff0f5; transform: translateY(-2px); }
 
-        #no-btn { position: absolute; width: 80px; z-index: 999; }
+        #no-btn { position: absolute; width: 80px; z-index: 999; border-color: #ccc; color: #888; }
 
         /* The Heartful Note */
         .letter {
             text-align: left;
             line-height: 1.7;
-            color: #444;
+            color: #333;
             font-size: 0.95rem;
             max-height: 70vh;
             overflow-y: auto;
             padding-right: 15px;
         }
 
-        .letter h3 { color: #000; text-align: left; margin-bottom: 15px; font-size: 1.6rem; border-bottom: 2px solid #eee; display: inline-block; }
+        .letter h3 { 
+            font-family: 'Dancing Script', cursive; 
+            color: #d63384; 
+            font-size: 2rem; 
+            margin-bottom: 15px;
+        }
         
         .letter::-webkit-scrollbar { width: 4px; }
-        .letter::-webkit-scrollbar-thumb { background: #ddd; border-radius: 10px; }
+        .letter::-webkit-scrollbar-thumb { background: #ffb3c1; border-radius: 10px; }
 
-        ul { padding-left: 20px; margin: 15px 0; list-style-type: '→ '; }
-        li { margin-bottom: 10px; color: #555; }
-        .sig { text-align: right; margin-top: 30px; font-style: italic; }
+        ul { padding-left: 20px; margin: 15px 0; }
+        li { margin-bottom: 8px; }
     </style>
 </head>
 <body>
@@ -109,24 +123,25 @@
         <div id="step1" class="step active">
             <div class="bunny-box">
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M30,35 Q30,5 42,5 Q50,5 50,35" fill="none" stroke="black" stroke-width="2.5" />
-                    <path d="M50,35 Q50,5 58,5 Q70,5 70,35" fill="none" stroke="black" stroke-width="2.5" />
-                    <path d="M35,60 Q35,40 50,40 Q65,40 65,60 Q65,80 50,80 Q35,80 35,60" fill="none" stroke="black" stroke-width="2.5" />
-                    <circle cx="43" cy="55" r="2" fill="black"/>
-                    <circle cx="57" cy="55" r="2" fill="black"/>
-                    <path d="M47,65 Q50,68 53,65" fill="none" stroke="black" stroke-width="1.5"/>
-                    <path d="M20,20 L25,10 L30,20 L40,25 L30,30 L25,40 L20,30 L10,25 Z" fill="#fff9c4" stroke="#fbc02d" stroke-width="1" />
+                    <path d="M30,35 Q30,5 42,5 Q50,5 50,35" fill="none" stroke="black" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M50,35 Q50,5 58,5 Q70,5 70,35" fill="none" stroke="black" stroke-width="2" stroke-linecap="round"/>
+                    <circle cx="50" cy="65" r="22" fill="none" stroke="black" stroke-width="2"/>
+                    <circle cx="43" cy="62" r="2" fill="black"/>
+                    <circle cx="57" cy="62" r="2" fill="black"/>
+                    <path d="M47,72 Q50,75 53,72" fill="none" stroke="black" stroke-width="1"/>
+                    <circle cx="20" cy="25" r="10" fill="none" stroke="#ffb3c1" stroke-width="1" stroke-dasharray="2,2" />
+                    <text x="17" y="29" font-size="12" fill="#ffb3c1">?</text>
                 </svg>
             </div>
-            <h2>Quick question... what was the first thing you ever said to me?</h2>
+            <h2 class="cursive-question">What was the first thing you ever said to me? ❤️</h2>
             <div class="btn-group">
-                <button onclick="alert('Wrong! Try again, handsome. 😉')">1. hello, how are you?</button>
+                <button onclick="alert('Think again, handsome! 😉')">1. hello, how are you?</button>
                 <button onclick="nextStep(2)">2. tmi bindu ho?</button>
             </div>
         </div>
 
         <div id="step2" class="step">
-            <h2 style="margin-top: 40px;">Do you love me?</h2>
+            <h2 class="cursive-question" style="margin-top: 30px;">Do you love me? ❤️</h2>
             <div class="btn-group" style="height: 120px; position: relative; width: 100%;">
                 <button onclick="nextStep(3)" style="position: absolute; left: 50%; transform: translateX(-50%); top: 0;">Yes</button>
                 <button id="no-btn" onmouseover="evade()">No</button>
@@ -134,7 +149,7 @@
         </div>
 
         <div id="step3" class="step">
-            <h2>Willing to be my forever?</h2>
+            <h2 class="cursive-question">Willing to be my forever? ❤️</h2>
             <div class="btn-group">
                 <button onclick="nextStep(4)">Yes</button>
                 <button onclick="nextStep(4)">Only Yes</button>
@@ -161,7 +176,7 @@
 
                 <p>I can’t wait to see us finish that to-do list together.</p>
                 
-                <p class="sig"><strong>Loving you always,</strong></p>
+                <p style="text-align: right; margin-top: 30px; font-weight: bold; color: #d63384;">Loving you always,</p>
             </div>
         </div>
 
@@ -170,33 +185,30 @@
     <script>
         // Falling Stars and Love Symbols
         function spawnSymbol() {
-            const symbols = ['⭐', '✨', '🤍', '🖤', '💫'];
+            const symbols = ['⭐', '💖', '✨', '💕', '🤍'];
             const el = document.createElement('div');
             el.className = 'symbol';
             el.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
             el.style.left = Math.random() * 100 + 'vw';
-            el.style.fontSize = (Math.random() * 10 + 12) + 'px';
+            el.style.fontSize = (Math.random() * 10 + 15) + 'px';
             el.style.animationDuration = (Math.random() * 2 + 3) + 's';
             el.style.opacity = Math.random();
             document.body.appendChild(el);
             setTimeout(() => el.remove(), 5000);
         }
-        setInterval(spawnSymbol, 400);
+        setInterval(spawnSymbol, 350);
 
-        // Step Management
+        // Step Navigation
         function nextStep(n) {
             document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
             document.getElementById('step' + n).classList.add('active');
         }
 
-        // Moving "No" Button
+        // "No" button move logic
         function evade() {
             const btn = document.getElementById('no-btn');
-            const maxX = window.innerWidth - btn.offsetWidth - 20;
-            const maxY = window.innerHeight - btn.offsetHeight - 20;
-            const x = Math.random() * maxX;
-            const y = Math.random() * maxY;
-            
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth - 20);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight - 20);
             btn.style.position = 'fixed';
             btn.style.left = x + 'px';
             btn.style.top = y + 'px';
